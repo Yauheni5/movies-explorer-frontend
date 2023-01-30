@@ -1,10 +1,28 @@
 /* import normalize.css */
-@import url('../src/vendor/normalize.css');
+@import url('./vendor/normalize.css');
 
 /* font Inter */
-@import url('../src/vendor/fonts/InterV3.19/inter.css');
+@import url('./vendor/fonts/InterV3.19/inter.css');
 
-/* import root.css */
-@import url('../src/blocks/root/root.css');
-/* import page.css */
-@import url('../src/blocks/page/page.css');
+/* import Root.css */
+@import url('./components/Root/Root.css');
+
+/* import App.css */
+@import url('./components/App/App.css');
+
+/* import header.css */
+@import url('./components/Header/Header.css');
+
+/* import section */
+@import url('./blocks/section/section.css');
+/* import info.css */
+@import url('./components/Info/Info.css');
+
+/* import about.css */
+@import url('./components/About/About.css');
+
+/* import skills.css */
+@import url('./components/Skills/Skills.css');
+
+/* import resume.css */
+@import url('./components/Resume/Resume.css');
