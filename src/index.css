@@ -1,0 +1,10 @@
+/* import normalize.css */
+@import url('../src/vendor/normalize.css');
+
+/* font Inter */
+@import url('../src/vendor/fonts/InterV3.19/inter.css');
+
+/* import root.css */
+@import url('../src/blocks/root/root.css');
+/* import page.css */
+@import url('../src/blocks/page/page.css');
