@@ -15,6 +15,7 @@
 
 /* import section */
 @import url('./blocks/section/section.css');
+
 /* import info.css */
 @import url('./components/Info/Info.css');
 
@@ -26,3 +27,9 @@
 
 /* import resume.css */
 @import url('./components/Resume/Resume.css');
+
+/* import portfolio.css */
+@import url('./components/Portfolio/Portfolio.css');
+
+/* import footer.css */
+@import url('./components/Footer/Footer.css');

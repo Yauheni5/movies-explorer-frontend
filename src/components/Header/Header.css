@@ -32,3 +32,23 @@
   padding: 8px 20px;
   border-radius: 3px;
 }
+
+@media (max-width: 1080px) {
+  .header {
+    padding: 18px 30px 21px;
+  }
+}
+
+@media (max-width: 760px) {
+  .header {
+    padding: 18px 14px;
+  }
+
+  .header__link {
+    font-size: 10px;
+  }
+
+  .header__link_button {
+    padding: 5px 12px;
+  }
+}

@@ -1,3 +1,142 @@
 .resume {
   padding: 110px 70px 125px;
 }
+
+.resume__block {
+  display: grid;
+  justify-content: space-between;
+  margin-top: 66px;
+  grid-template-columns: minmax(auto, 600px);
+  grid-template-areas:
+    "title avatar"
+    "info avatar"
+    "about avatar"
+    "link avatar";
+}
+
+.resume__title {
+  grid-area: title;
+  margin: 0;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+}
+
+.resume__info {
+  grid-area: info;
+  margin: 18px 0 0 0;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.resume__about {
+  grid-area: about;
+  margin: 26px 0 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.resume__avatar {
+  grid-area: avatar;
+  max-width: 270px;
+  height: 327px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.resume__link {
+  grid-area: link;
+  text-decoration: none;
+  margin: 99px 0 0 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+  opacity: 1;
+  transition: all .5s linear;
+}
+
+.resume__link:hover {
+  opacity: .8;
+}
+
+@media (max-width: 1080px) {
+  .resume {
+    padding: 90px 50px;
+  }
+
+  .resume__block {
+    grid-template-columns: minmax(auto, 367px);
+  }
+
+  .resume__title {
+    font-size: 40px;
+  }
+
+  .resume__info {
+    margin-top: 16px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .resume__about {
+    margin-top: 20px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .resume__avatar {
+    max-width: 255px;
+    height: 307px;
+  }
+
+  .resume__link {
+    margin-top: 87px;
+  }
+}
+
+@media (max-width: 760px) {
+  .resume {
+    padding: 70px 14px;
+  }
+
+  .resume__block {
+    margin-top: 60px;
+    grid-template-areas:
+      "avatar"
+      "title"
+      "info"
+      "about"
+      "link";
+  }
+
+  .resume__avatar {
+    min-width: 292px;
+    height: 352px;
+    margin: 0 auto;
+  }
+
+  .resume__title {
+    margin-top: 40px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .resume__info {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .resume__about {
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 20px;
+  }
+
+  .resume__link {
+    margin-top: 40px;
+  }
+}

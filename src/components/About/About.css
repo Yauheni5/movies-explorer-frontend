@@ -69,3 +69,47 @@
 .about__field_frontend {
   flex: 4;
 }
+
+@media (max-width: 1080px) {
+  .about {
+    padding: 90px 50px;
+  }
+}
+
+@media (max-width: 760px) {
+  .about {
+    padding: 70px 18px;
+  }
+
+  .about__info {
+    margin-top: 60px;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .about__subtitle {
+    margin-top: 16px;
+  }
+
+  .about__text {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .about__graph {
+    margin-top: 60px;
+  }
+
+  .about__paragraph {
+    font-size: 11px;
+    line-height: 13px;
+    min-width: 100px;
+  }
+
+  .about__subtitle {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #A0A0A0;
+  }
+}
