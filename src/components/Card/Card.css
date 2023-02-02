@@ -1,0 +1,107 @@
+.card {
+  display: grid;
+  justify-items: stretch;
+  background-color: #2F2F2F;
+  box-sizing: border-box;
+  padding-bottom: 14px;
+  grid-template-areas:
+    "title img"
+    "subtitle img"
+    "button img";
+}
+
+.card__title {
+  grid-area: title;
+  margin: 22px 0 0 22px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.card__subtitle {
+  grid-area: subtitle;
+  font-size: 11px;
+  line-height: 13px;
+  color: #8B8B8B;
+  margin: 13px 0 0 22px;
+}
+
+.card__button-like {
+  grid-area: button;
+  width: 14px;
+  height: 12px;
+  background-image: url('../../images/like.svg');
+  cursor: pointer;
+  transition: all .5s linear;
+  opacity: 1;
+  margin: 30px 0 22px 22px;
+}
+
+.card__button-like:hover {
+  opacity: .6;
+}
+
+.card__button-like_active {
+
+  background-image: url('../../images/like-active.svg');
+}
+
+.card__button-delete {
+  grid-area: button;
+  background-image: url('../../images/delete-movie-icon.svg');
+  background-repeat: no-repeat;
+  margin: 30px 0 22px 22px;
+  width: 14px;
+  height: 12px;
+  cursor: pointer;
+  transition: all .5s linear;
+  opacity: 1;
+}
+
+.card__button-delete:hover {
+  opacity: .6;
+}
+
+.card__image {
+  grid-area: img;
+  width: 220px;
+  height: 122px;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: 6px;
+  align-self: center;
+}
+
+@media (max-width: 760px) {
+  .card {
+    grid-template-areas:
+      "img img"
+      "title button"
+      "subtitle .";
+  }
+
+  .card__title {
+    font-size: 12px;
+    line-height: 15px;
+    margin: 14px 0 0 12px;
+  }
+
+  .card__subtitle {
+    margin: 8px 0 0 12px;
+  }
+
+  .card__image {
+    width: 100%;
+    height: 168px;
+    object-fit: contain;
+    margin: 0;
+  }
+
+  .card__button-like {
+    margin: 16px 16px 0 auto;
+  }
+
+  .card__button-delete {
+    margin: 16px 16px 0 auto;
+  }
+}

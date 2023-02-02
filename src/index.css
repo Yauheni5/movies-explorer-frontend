@@ -33,3 +33,12 @@
 
 /* import footer.css */
 @import url('./components/Footer/Footer.css');
+
+/* import seacher.css */
+@import url('./components/Seacher/Seacher.css');
+
+/* import card.css */
+@import url('./components/Card/Card.css');
+
+/* import movies.css */
+@import url('./components/Movies/Movies.css');
