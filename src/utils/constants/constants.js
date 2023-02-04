@@ -100,4 +100,9 @@ export const moviesData = [
     trailerLink:"https://www.youtube.com/watch?v=__2oZSM1l1Q",
     id: 10,
   },
-]
+];
+
+export const userData = {
+  name: "Евгений",
+  email: "yauheni.ash@gmail.com"
+};

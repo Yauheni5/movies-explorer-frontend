@@ -1,9 +1,10 @@
 .info {
-  padding: 75px 70px;
+  padding: 153px 70px 75px;
   background-color: #073042;
   background-image: url('../../images/about-bg.png');
   background-repeat: no-repeat;
-  background-position: 92.5% 30%;
+  background-position: 92.5% 44%;
+  margin-top: -78px;
 }
 
 .info__title {

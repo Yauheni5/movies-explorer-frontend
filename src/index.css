@@ -42,3 +42,12 @@
 
 /* import movies.css */
 @import url('./components/Movies/Movies.css');
+
+/* import profile.css */
+@import url('./components/Profile/Profile.css');
+
+/* import Register.css */
+@import url('./components/Register/Register.css');
+
+/* import NotFoundPage*/
+@import url('./components/NotFoundPage/NotFoundPage.css');

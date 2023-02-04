@@ -38,7 +38,7 @@ function Header({ isLogged, handleClickLogged }) {
           <Link
             to="/profile"
             className="header__link header__button-account"
-            onClick={handleClickLogged}>
+          >
             Аккаунт
           </Link>
         </div>
@@ -71,7 +71,7 @@ function Header({ isLogged, handleClickLogged }) {
             <Link
               to="/profile"
               className="header__link header__button-account burger__button-account"
-              onClick={handleClickLogged}>
+            >
               Аккаунт
             </Link>
           </div>

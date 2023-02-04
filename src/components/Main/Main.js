@@ -1,4 +1,4 @@
-export default function Main({ isLogged, children}) {
+export default function Main({ children}) {
   return (
       <main className="main">
         {children}

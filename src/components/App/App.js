@@ -9,6 +9,11 @@ import Skills from "../Skills/Skills";
 import Resume from "../Resume/Resume";
 import Movies from "../Movies/Movies";
 import Seacher from "../Seacher/Seacher";
+import Profile from "../Profile/Profile";
+import { userData } from "../../utils/constants/constants";
+import Register from "../Register/Register";
+import Login from "../Login/Login";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true)
@@ -17,17 +22,20 @@ function App() {
   }
   return (
     <div className="app">
-    <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
       <Switch>
         <Route path="/signup">
-
+          <Register />
         </Route>
         <Route path="/signin">
-          {loggedIn ? <Redirect to="movies" /> : ""}
+          <Login />
         </Route>
+
         <Route path="/movies">
-          <Main isLogged={loggedIn} children={[<Seacher />,<Movies />]}
-          />
+
+            <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
+            <Main isLogged={loggedIn} children={[<Seacher />,<Movies />]}/>
+            <Footer />
+
         </Route>
         <Route path="/saved-movies">
           {
@@ -35,27 +43,29 @@ function App() {
             (<Redirect to="/saved-movies"/>) :
             (<Redirect to="/"/>)
           }
-
+          <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
           <Main isLogged={loggedIn} children={[<Seacher />,<Movies isSavedFilms={true}/>]} />
+          <Footer />
         </Route>
         <Route path="/profile">
-          {loggedIn ?
-            <Main isLogged={loggedIn} /> :
-            <Redirect to="/"/>
-          }
+          <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
+          <Main isLogged={loggedIn} children={[<Profile userData={userData} handleClickLogged={handleClickLogged}/>]}/>
         </Route>
-        <Route path="/">
+        <Route exact path="/">
+          <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
           <Main children={[
             <Info />,
             <About />,
             <Skills />,
-            <Resume />]
+            <Resume />,
+            <Footer />]
             }
           />
         </Route>
+        <Route exact path="*">
+          <NotFoundPage />
+        </Route>
       </Switch>
-
-      <Footer />
     </div>
   );
 }

@@ -18,8 +18,23 @@
   margin-top: 10px;
 }
 
+@media (max-width: 1080px) {
+  .movies {
+    padding: 60px 30px 80px;
+  }
+
+  .movies__button-more {
+    margin-top: 40px;
+  }
+}
+
 @media (max-width: 760px) {
   .movies {
     padding: 40px 10px;
+    gap: 20px;
+  }
+
+  .movies__button-more {
+    margin-top: 50px;
   }
 }

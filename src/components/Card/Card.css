@@ -3,7 +3,6 @@
   justify-items: stretch;
   background-color: #2F2F2F;
   box-sizing: border-box;
-  padding-bottom: 14px;
   grid-template-areas:
     "title img"
     "subtitle img"
@@ -72,8 +71,11 @@
   align-self: center;
 }
 
+
+
 @media (max-width: 760px) {
   .card {
+    padding-bottom: 14px;
     grid-template-areas:
       "img img"
       "title button"
