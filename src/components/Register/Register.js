@@ -93,6 +93,7 @@ export default function Register() {
           placeholder="Введите пароль"
           onChange={handleChangePassword}
           type="password"
+          minLength={6}
           required
         />
         <p className="register__eror">{passwordErrorText || ""}</p>
