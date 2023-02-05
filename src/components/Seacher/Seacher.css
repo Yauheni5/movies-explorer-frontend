@@ -23,6 +23,10 @@
   width: 100%;
 }
 
+.seacher__input:focus {
+  outline: 1px solid #8b8b8b;
+}
+
 .seacher__button {
   grid-area: button;
   width: 44px;
