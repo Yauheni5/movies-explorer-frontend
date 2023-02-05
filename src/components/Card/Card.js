@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { moviesData } from "../../utils/constants/constants";
 
 export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovies, isSavedFilms}) {
@@ -20,7 +19,7 @@ export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovi
   const movies = moviesData.map((item, index) => {
     if (index < viewNumberFilm) {
       return (
-        <div className="card" key={item.id}>
+        <li className="card" key={item.id}>
           <h2 className="card__title">{item.nameRU}</h2>
           <p className="card__subtitle">
             {item.duration + "ч" + item.duration + "м"}
@@ -31,7 +30,7 @@ export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovi
             src={item.thumbnail}
             alt={"миниатюрное изображение постера к фильму" + item.nameEN}
           />
-        </div>
+        </li>
       );
     }
   });

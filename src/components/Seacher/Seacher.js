@@ -14,14 +14,14 @@ export default function Seacher() {
   },[shortFilm]);
   return (
     <section className="seacher section">
-      <div className="seacher__form">
-        <input className="seacher__input" placeholder="Фильм"/>
+      <form className="seacher__form">
+        <input className="seacher__input" type="text" placeholder="Фильм" minLength={2} maxLength={30} required/>
         <button className="seacher__button" />
           <div className="seacher__track" onClick={handleClickCheckBox}>
             <div className={shortFilm ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
             <p className="seacher__label">Короткометражки</p>
           </div>
-      </div>
+      </form>
       <hr className="seacher__line" />
     </section>
   )

@@ -35,6 +35,12 @@
   border: none;
   margin-left: 10px;
   cursor: pointer;
+  opacity: 1;
+  transition: all .5s linear;
+}
+
+.seacher__button:hover {
+  opacity: .6;
 }
 
 .seacher__track {

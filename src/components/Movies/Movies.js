@@ -17,13 +17,15 @@ export default function Movies({isSavedFilms}) {
 
   return (
     <section className="movies">
-      <Card
-        viewNumberFilm={viewNumberFilm}
-        handleToogleSavedMovies={handleToogleSavedMovies}
-        savedMovies={isSavedFilms ? savedMovies : ""}
-        isSavedFilms={isSavedFilms}
-        />
-      {viewNumberFilm < moviesData.length ? <button onClick={handleClickMoreFilms} className="movies__button-more">Ещё</button> : ""}
+      <ul className="movies__list">
+        <Card
+            viewNumberFilm={viewNumberFilm}
+            handleToogleSavedMovies={handleToogleSavedMovies}
+            savedMovies={isSavedFilms ? savedMovies : ""}
+            isSavedFilms={isSavedFilms}
+            />
+          {viewNumberFilm < moviesData.length ? <button onClick={handleClickMoreFilms} className="movies__button-more">Ещё</button> : ""}
+      </ul>
     </section>
   );
 }
