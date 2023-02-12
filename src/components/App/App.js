@@ -14,11 +14,24 @@ import { userData } from "../../utils/constants/constants";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { moviesApi } from "../../utils/MoviesApi";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(true);
+  const [moviesFilter, setMoviesFilter] = useState([]);
   function handleClickLogged () {
     setLoggedIn(!loggedIn);
+  }
+
+  async function getMovies(inputFilter){
+    try {
+      const movies = await moviesApi.getMovies();
+      setMoviesFilter(movies.filter(movie => movie.nameRU.includes(inputFilter) && movie));
+      console.log(moviesFilter)
+      /* console.log(movies) */
+    } catch (error) {
+      console.log(error); // выведем ошибку в консоль
+    }
   }
   return (
     <div className="app">
@@ -29,13 +42,10 @@ function App() {
         <Route path="/signin">
           <Login />
         </Route>
-
         <Route path="/movies">
-
             <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
-            <Main isLogged={loggedIn} children={[<Seacher />,<Movies />]}/>
+            <Main isLogged={loggedIn} children={[<Seacher getMovies={getMovies} />,<Movies moviesFilter={moviesFilter}/>]}/>
             <Footer />
-
         </Route>
         <Route path="/saved-movies">
           {
@@ -44,7 +54,7 @@ function App() {
             (<Redirect to="/"/>)
           }
           <Header isLogged={loggedIn} handleClickLogged={handleClickLogged}/>
-          <Main isLogged={loggedIn} children={[<Seacher />,<Movies isSavedFilms={true}/>]} />
+          <Main isLogged={loggedIn} children={[<Seacher />,<Movies isSavedFilms={true} moviesFilter={moviesFilter}/>]} />
           <Footer />
         </Route>
         <Route path="/profile">

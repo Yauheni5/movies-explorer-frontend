@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function Seacher() {
+export default function Seacher({getMovies}) {
   const [shortFilm, setShortFilm] = useState(false);
   const [inputFilter, setInputFilter] = useState("");
 
@@ -26,7 +26,7 @@ export default function Seacher() {
     <section className="seacher section">
       <form className="seacher__form" onSubmit={handleSubmit}>
         <input className="seacher__input" onChange={handleChangeFilterInput} type="text" placeholder="Фильм" value={inputFilter} minLength={2} maxLength={30} required/>
-        <button className="seacher__button" type="submit" />
+        <button className="seacher__button" type="submit" onClick={()=>(getMovies(inputFilter))}/>
           <div className="seacher__track" onClick={()=> setShortFilm(!shortFilm)}>
             <div className={shortFilm ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
             <p className="seacher__label">Короткометражки</p>

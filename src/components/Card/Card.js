@@ -1,6 +1,6 @@
 import { moviesData } from "../../utils/constants/constants";
 
-export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovies, isSavedFilms}) {
+export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovies, isSavedFilms, moviesFilter}) {
 
   function handleClickLike(e, item) {
     if (e.target.className === "card__button-like card__button-like_active") {
@@ -16,18 +16,29 @@ export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovi
   function handleDeleteMovie(e, item) {
     console.log("удалить сохранённую карточку")
   }
-  const movies = moviesData.map((item, index) => {
+
+function handleTimeDuration(duration) {
+  if (duration > 60) {
+    let hours, minutes;
+    hours = Math.trunc(duration / 60);
+    minutes = duration - (hours * 60);
+    return `${hours}ч ${minutes}м`
+  }
+  return `${duration}м`
+}
+
+const movies = moviesFilter.map((item, index) => {
     if (index < viewNumberFilm) {
       return (
         <li className="card" key={item.id}>
           <h2 className="card__title">{item.nameRU}</h2>
           <p className="card__subtitle">
-            {item.duration + "ч" + item.duration + "м"}
+            {handleTimeDuration(item.duration)}
           </p>
           <div className="card__button-like" onClick={(e)=>handleClickLike(e, item)}></div>
           <img
             className="card__image"
-            src={item.thumbnail}
+            src={"https://api.nomoreparties.co" + item.image.url}
             alt={"миниатюрное изображение постера к фильму" + item.nameEN}
           />
         </li>
@@ -37,7 +48,7 @@ export default function Card({handleToogleSavedMovies, viewNumberFilm, savedMovi
 
   function savedMoviesRender () {
     /* заменить на массив сохранённых фильмов */
-    return moviesData.map((item, index) => {
+    return moviesFilter.map((item, index) => {
       if (index < viewNumberFilm) {
         return (
           <div className="card" key={item?.id}>

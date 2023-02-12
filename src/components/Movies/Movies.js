@@ -2,7 +2,7 @@ import { useState } from "react";
 import { moviesData } from "../../utils/constants/constants";
 import Card from "../Card/Card";
 
-export default function Movies({isSavedFilms}) {
+export default function Movies({isSavedFilms, moviesFilter}) {
   const initNubmerViewFilms = 7;
   const [viewNumberFilm, setViewNumberFilm] = useState(initNubmerViewFilms);
   const [savedMovies, setSavedMovies] = useState([]);
@@ -23,8 +23,9 @@ export default function Movies({isSavedFilms}) {
             handleToogleSavedMovies={handleToogleSavedMovies}
             savedMovies={isSavedFilms ? savedMovies : ""}
             isSavedFilms={isSavedFilms}
+            moviesFilter={moviesFilter}
             />
-          {viewNumberFilm < moviesData.length ? <button onClick={handleClickMoreFilms} className="movies__button-more">Ещё</button> : ""}
+          {viewNumberFilm < moviesFilter?.length ? <button onClick={handleClickMoreFilms} className="movies__button-more">Ещё</button> : ""}
       </ul>
     </section>
   );
