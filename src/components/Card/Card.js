@@ -35,7 +35,7 @@ const movies = moviesFilter.map((item, index) => {
           <p className="card__subtitle">
             {handleTimeDuration(item.duration)}
           </p>
-          <div className="card__button-like" onClick={(e)=>handleClickLike(e, item)}></div>
+          <button className="card__button-like" onClick={(e)=>handleClickLike(e, item)}></button>
           <img
             className="card__image"
             src={"https://api.nomoreparties.co" + item.image.url}
@@ -56,10 +56,10 @@ const movies = moviesFilter.map((item, index) => {
             <p className="card__subtitle">
               {item.duration + "ч" + item.duration + "м"}
             </p>
-            <div className="card__button-delete" onClick={(e)=>handleDeleteMovie(e, item)}></div>
+            <button className="card__button-delete" onClick={(e)=>handleDeleteMovie(e, item)}></button>
             <img
               className="card__image"
-              src={item.thumbnail}
+              src={"https://api.nomoreparties.co" + item.image.url}
               alt={"миниатюрное изображение постера к фильму" + item.nameEN}
             />
           </div>

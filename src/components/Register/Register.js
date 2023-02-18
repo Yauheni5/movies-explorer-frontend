@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-export default function Register() {
+export default function Register({registrationUser, handleChangeRegisteredUser}) {
   const [nameUser, setNameUser] = useState("");
   const [isValidNameUserInput, setIsValidNameUserInput] = useState(false);
   const [nameUserErrorText, setNameUserErrorText] = useState("");
@@ -56,7 +56,7 @@ export default function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    isValid && console.log({ name: nameUser, email: emailUser, password: password });
+    isValid && registrationUser({ name: nameUser, email: emailUser, password: password });
   }
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function Register() {
           maxLength={30}
           required
         />
-        <p className="register__eror">{nameUserErrorText || ""}</p>
+        <p className="register__error">{nameUserErrorText || ""}</p>
         <p className="register__label">E-mail</p>
         <input className={isValidEmailUserInput ? "register__input" : "register__input register__input_error"}
           placeholder="Введите E-mail"
@@ -87,7 +87,7 @@ export default function Register() {
           type="email"
           required
         />
-        <p className="register__eror">{emailUserErrorText || ""}</p>
+        <p className="register__error">{emailUserErrorText || ""}</p>
         <p className="register__label">Пароль</p>
         <input className={isValidPasswordInput ? "register__input" : "register__input register__input_error"}
           placeholder="Введите пароль"
@@ -96,7 +96,7 @@ export default function Register() {
           minLength={6}
           required
         />
-        <p className="register__eror">{passwordErrorText || ""}</p>
+        <p className="register__error">{passwordErrorText || ""}</p>
         <button
           type="submit"
           className={isValid ? "register__button" : "register__button register__button_disabled"}
@@ -104,7 +104,7 @@ export default function Register() {
         >
           Зарегистрироваться
         </button>
-        <Link to="/signin" className="register__link" >Уже зарегистрированы? <span className="register__text">Войти</span></Link>
+        <Link to="/signin" onClick={handleChangeRegisteredUser} className="register__link" >Уже зарегистрированы? <span className="register__text">Войти</span></Link>
       </form>
     </section>
   )

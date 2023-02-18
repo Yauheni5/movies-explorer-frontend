@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-export default function Login() {
+export default function Login({authorizationUser}) {
   const [emailUser, setEmailUser] = useState("");
   const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(false);
   const [emailUserErrorText, setEmailUserErrorText] = useState("");
@@ -41,9 +41,9 @@ export default function Login() {
     setPassword(e.target.value);
   }
 
-    function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    isValid && console.log({ email: emailUser, password: password });
+    isValid && authorizationUser({ email: emailUser, password: password });
   }
 
   useEffect(() => {

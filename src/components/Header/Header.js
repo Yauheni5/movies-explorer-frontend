@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-function Header({ isLogged, handleClickLogged }) {
+function Header({ isLogged, handleClickLogged, currentUser }) {
+  console.log(currentUser)
   function handleClickBurgerMenu() {
     if (document.querySelector('.burger__button-close')) {
       document.querySelector('.burger__button-close').className = "burger__button-close_active";
@@ -72,7 +73,7 @@ function Header({ isLogged, handleClickLogged }) {
               to="/profile"
               className="header__link header__button-account burger__button-account"
             >
-              Аккаунт
+              {currentUser.name}
             </Link>
           </div>
         ) : (

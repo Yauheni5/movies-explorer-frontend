@@ -47,6 +47,15 @@
   opacity: .6;
 }
 
+.seacher__button_inactive {
+  opacity: .3;
+}
+
+.seacher__button_inactive:hover {
+  opacity: .3;
+  cursor: inherit;
+}
+
 .seacher__track {
   display: flex;
   flex-direction: column;

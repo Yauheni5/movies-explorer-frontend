@@ -2,7 +2,7 @@ import { useState } from "react";
 import { moviesData } from "../../utils/constants/constants";
 import Card from "../Card/Card";
 
-export default function Movies({isSavedFilms, moviesFilter}) {
+export default function Movies({isSavedFilms, moviesFilter, handleSavedMovies}) {
   const initNubmerViewFilms = 7;
   const [viewNumberFilm, setViewNumberFilm] = useState(initNubmerViewFilms);
   const [savedMovies, setSavedMovies] = useState([]);
@@ -12,7 +12,7 @@ export default function Movies({isSavedFilms, moviesFilter}) {
   }
 
   function handleToogleSavedMovies (movie) {
-    return setSavedMovies([...savedMovies, movie]);
+    return handleSavedMovies(movie);
   }
 
   return (
