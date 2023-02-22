@@ -75,14 +75,47 @@ class MainApi {
     .then(this._checkResponseError)
   }
 
-  saveMovie (dataMovie, token) {
+  saveMovie (data, token) {
     return fetch(`${this.url}/movies`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         "Authorization" : `Bearer ${token}`
     },
-      body: JSON.stringify(dataMovie)
+      body: JSON.stringify({
+        country: data.country,
+        director: data.director,
+        duration: data.duration,
+        year: data.year,
+        description: data.description,
+        image: 'https://api.nomoreparties.co' + data.image.url,
+        trailerLink: data.trailerLink,
+        thumbnail: 'https://api.nomoreparties.co' + data.image.formats.thumbnail.url,
+        movieId: data.id,
+        nameRU: data.nameRU,
+        nameEN: data.nameEN
+      })
+    })
+    .then(this._checkResponseError)
+  }
+
+  getSavedMovies (token) {
+    return fetch(`${this.url}/movies`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : `Bearer ${token}`
+      }
+    })
+    .then(this._checkResponseError)
+  }
+
+  deleteSavedMovie (movieId, token) {
+    return fetch(`${this.url}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: {
+        "Authorization": `Bearer ${token}`
+      },
     })
     .then(this._checkResponseError)
   }

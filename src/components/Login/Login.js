@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
+import Preloader from "../Preloader/Preloader";
 
-export default function Login({authorizationUser}) {
+export default function Login({
+  isLoading,
+  authorizationUser,
+  togleRegisteredUser,
+}) {
   const [emailUser, setEmailUser] = useState("");
   const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(false);
   const [emailUserErrorText, setEmailUserErrorText] = useState("");
@@ -23,21 +28,13 @@ export default function Login({authorizationUser}) {
     }
   };
 
-    function handleChangeEmail(e) {
-    handleChangeInputError(
-      e,
-      setEmailUserErrorText,
-      setIsValidEmailUserInput
-    );
+  function handleChangeEmail(e) {
+    handleChangeInputError(e, setEmailUserErrorText, setIsValidEmailUserInput);
     setEmailUser(e.target.value);
   }
 
   function handleChangePassword(e) {
-    handleChangeInputError(
-      e,
-      setPasswordErrorText,
-      setIsValidPasswordInput
-    );
+    handleChangeInputError(e, setPasswordErrorText, setIsValidPasswordInput);
     setPassword(e.target.value);
   }
 
@@ -50,9 +47,9 @@ export default function Login({authorizationUser}) {
     setIsValid(isValidEmailUserInput && isValidPasswordInput);
   }, [isValidEmailUserInput, isValidPasswordInput]);
 
-
-
-  return (
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <section className="register">
       <Link to="/" className="register__logo">
         <img className="logo" src={logo} alt="логотип приложения" />
@@ -61,7 +58,11 @@ export default function Login({authorizationUser}) {
       <form className="register__form" onSubmit={handleSubmit} noValidate>
         <p className="register__label">E-mail</p>
         <input
-          className={isValidEmailUserInput ? "register__input" : "register__input register__input_error"}
+          className={
+            isValidEmailUserInput
+              ? "register__input"
+              : "register__input register__input_error"
+          }
           placeholder="Введите E-mail"
           onChange={handleChangeEmail}
           type="email"
@@ -79,12 +80,18 @@ export default function Login({authorizationUser}) {
         <p className="register__eror">{passwordErrorText || ""}</p>
         <button
           type="submit"
-          className={isValid ? "register__button" : "register__button register__button_disabled"}
-          disabled={isValid ? "" : "disabled"}
-        >
+          className={
+            isValid
+              ? "register__button"
+              : "register__button register__button_disabled"
+          }
+          disabled={isValid ? "" : "disabled"}>
           Войти
         </button>
-        <Link to="/movies" className="register__link">
+        <Link
+          to="/signup"
+          className="register__link"
+          onClick={()=>togleRegisteredUser(false)}>
           Ещё не зарегистрированы?
           <span className="register__text">Регистрация</span>
         </Link>

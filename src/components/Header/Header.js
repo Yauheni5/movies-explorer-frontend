@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-function Header({ isLogged, handleClickLogged, currentUser }) {
-  console.log(currentUser)
+function Header({ isLogged, togleRegisteredUser, currentUser }) {
   function handleClickBurgerMenu() {
     if (document.querySelector('.burger__button-close')) {
       document.querySelector('.burger__button-close').className = "burger__button-close_active";
@@ -40,18 +39,19 @@ function Header({ isLogged, handleClickLogged, currentUser }) {
             to="/profile"
             className="header__link header__button-account"
           >
-            Аккаунт
+            {currentUser.name}
           </Link>
         </div>
       ) : (
         <div className="header__cabinet">
-          <Link to="/signup" className="header__link">
+          <Link to="/signup" className="header__link" onClick={()=>togleRegisteredUser(false)}>
             Регистрация
           </Link>
           <Link
             to="/signin"
             className="header__link header__link_button"
-            onClick={handleClickLogged}>
+            onClick={()=>togleRegisteredUser(true)}
+          >
             Войти
           </Link>
         </div>
@@ -78,13 +78,14 @@ function Header({ isLogged, handleClickLogged, currentUser }) {
           </div>
         ) : (
           <div className="burger__cabinet">
-            <Link to="/signup" className="burger__link">
+            <Link to="/signup" className="burger__link" onClick={()=>togleRegisteredUser(false)}>
               Регистрация
             </Link>
             <Link
               to="/signin"
               className="burger__link burger__link_button"
-              onClick={handleClickLogged}>
+              onClick={()=>togleRegisteredUser(true)}
+            >
               Войти
             </Link>
           </div>

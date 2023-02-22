@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import Preloader from "../Preloader/Preloader";
 
-export default function Profile({userData, editDataUser, handleClickLogged}) {
-  console.log(userData)
+export default function Profile({isLoading, userData, editDataUser, handleClickLogged}) {
   const [nameUser, setNameUser] = useState(userData.name);
   const [isValidNameUserInput, setIsValidNameUserInput] = useState(true);
   const [nameUserErrorText, setNameUserErrorText] = useState("");
@@ -43,14 +43,15 @@ export default function Profile({userData, editDataUser, handleClickLogged}) {
   function handleSubmit(e) {
     e.preventDefault();
     editDataUser({ name: nameUser || userData.name, email: emailUser || userData.email});
-    console.log(nameUser, emailUser, isValid);
   }
 
   useEffect(() => {
     setIsValid(isValidNameUserInput && isValidEmailUserInput && (nameUser || emailUser));
   }, [isValidNameUserInput, isValidEmailUserInput, nameUser, emailUser]);
 
-  return(
+  return isLoading ? (
+    <Preloader />
+  ) :(
     <section className="profile">
       <form className="profile__form" onSubmit={handleSubmit} noValidate>
         <h2 className="profile__title">Привет, {nameUser || userData.name}!</h2>
@@ -80,8 +81,7 @@ export default function Profile({userData, editDataUser, handleClickLogged}) {
           type="submit"
           className=
             {
-              isValid &&
-              ((isValidEmailUserInput && !nameUser) || (isValidNameUserInput && !emailUser))
+              isValid
               ?
               "profile__button profile__button_edit"
               :

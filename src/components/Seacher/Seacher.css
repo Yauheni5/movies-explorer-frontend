@@ -66,6 +66,7 @@
   height: 20px;
   background-color: #343434;
   border-radius: 20px;
+  border: none;
   cursor: pointer;
   padding: 2px;
   box-sizing: border-box;
@@ -87,10 +88,16 @@
 }
 
 .seacher__label {
+  color: #FFFFFF;
   margin-left: 48px;
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
+  transition: all .5s linear;
+}
+
+.seacher__label_inactive {
+  color: #8B8B8B;
 }
 
 .seacher__line {

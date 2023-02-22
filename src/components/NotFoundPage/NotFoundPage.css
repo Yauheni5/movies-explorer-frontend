@@ -20,6 +20,9 @@
 }
 
 .not-found-page__link {
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
   margin-top: auto;
   margin-bottom: 60px;
   text-decoration: none;

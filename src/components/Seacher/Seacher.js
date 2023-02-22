@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react"
 
-export default function Seacher({getMovies}) {
-  const [shortFilm, setShortFilm] = useState(false);
-  const [inputFilter, setInputFilter] = useState("");
-  const [isInputFilterValid, setIsInputFilterValid] = useState(false);
+export default function Seacher({
+  handleTogleShortMovies,
+  isShortMovie,
+  filterMovies
+}) {
 
-  function handleSubmit(e) {
+  const [inputFilter, setInputFilter] = useState("");
+  const [isInputFilterValid, setIsInputFilterValid] = useState(true);
+
+  function handleSubmitFilter(e) {
     e.preventDefault();
+    filterMovies(inputFilter);
     setInputFilter("");
     setIsInputFilterValid(false);
   }
 
-  function handleChangeFilterInput (e){
+  function handleChangeFilterInput (e) {
     setInputFilter(e.target.value)
     if (e.target.validity.valid) {
       setIsInputFilterValid(true);
@@ -19,31 +24,23 @@ export default function Seacher({getMovies}) {
       setIsInputFilterValid(false);
     }
   }
-
-  useEffect(() => {
+ useEffect(() => {
     setIsInputFilterValid(isInputFilterValid);
   }, [isInputFilterValid]);
 
   useEffect (()=>{
-    if(shortFilm) {
-      console.log("включать короткометражки");
-    } else if (!shortFilm) {
-      console.log("не включать в поиск короткометражки");
-    }
-  },[shortFilm]);
+    /* getShortFilm(isShortFilm); */
+  }, [isShortMovie]);
 
   return (
     <section className="seacher section">
-      <form className="seacher__form" onSubmit={handleSubmit}>
+      <form className="seacher__form" onSubmit={handleSubmitFilter}>
         <input
           className="seacher__input"
-          onChange={handleChangeFilterInput}
           type="text"
-          placeholder="Фильм"
+          onChange={handleChangeFilterInput}
+          placeholder="Поиск по строке из названия"
           value={inputFilter || ""}
-          minLength={2}
-          maxLength={30}
-          required
           />
         <button
           className=
@@ -53,13 +50,11 @@ export default function Seacher({getMovies}) {
                 "seacher__button seacher__button_inactive"
             }
             type="submit"
-            onClick={()=>(getMovies(inputFilter))}
-            disabled={ isInputFilterValid ? "" : "disabled" }
           />
-          <div className="seacher__track" onClick={()=> setShortFilm(!shortFilm)}>
-            <div className={shortFilm ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
-            <p className="seacher__label">Короткометражки</p>
-          </div>
+          <button type="button" onClick={handleTogleShortMovies} className="seacher__track">
+            <div className={isShortMovie ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
+            <p className={isShortMovie ? "seacher__label" : "seacher__label seacher__label_inactive"}>Короткометражки</p>
+          </button>
       </form>
       <hr className="seacher__line" />
     </section>
