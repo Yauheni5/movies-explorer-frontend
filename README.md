@@ -2,6 +2,10 @@
 
 frontend movies explorer app
 
+## Ссылка на приложение на сервере:
+
+http://diploma-yauheni.nomoredomains.work/
+
 ## Ссылка на макет:
 
 https://drive.google.com/file/d/1OPc-K8BfOhSVXt00MIVvSu3xu4EwTdt7/view?usp=sharing
