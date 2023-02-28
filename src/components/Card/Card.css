@@ -68,6 +68,8 @@
 
 .card__image {
   grid-area: img;
+  text-decoration: none;
+  color: #8B8B8B;
   width: 220px;
   height: 122px;
   object-fit: cover;

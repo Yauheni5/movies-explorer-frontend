@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import Preloader from "../Preloader/Preloader";
+import validator from "validator";
 
 export default function Register({
   isLoading,
@@ -38,8 +39,14 @@ export default function Register({
   }
 
   function handleChangeEmail(e) {
-    handleChangeInputError(e, setEmailUserErrorText, setIsValidEmailUserInput);
-    setEmailUser(e.target.value);
+    if (e.target.validity.valid && validator.isEmail(e.target.value)) {
+      setEmailUserErrorText("");
+      setIsValidEmailUserInput(true);
+      setEmailUser(e.target.value);
+    } else {
+      setEmailUserErrorText(e.target.validationMessage || "Неверная почта");
+      setIsValidEmailUserInput(false);
+    }
   }
 
   function handleChangePassword(e) {

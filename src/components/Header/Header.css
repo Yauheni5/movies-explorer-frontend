@@ -45,6 +45,14 @@
   transition: all .5s linear;
 }
 
+.header__link_active {
+  box-sizing: border-box;
+  padding: 3px;
+  opacity: .2;
+  border: 1px solid #848484;
+  border-radius: 5px;
+}
+
 .header__link:hover {
   opacity: .8;
 }

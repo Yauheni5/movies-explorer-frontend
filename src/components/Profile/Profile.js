@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Preloader from "../Preloader/Preloader";
 
-export default function Profile({isLoading, userData, editDataUser, handleClickLogged}) {
+export default function Profile({isLoading, userData, editDataUser, handleClickLoggedOut}) {
   const [nameUser, setNameUser] = useState(userData.name);
   const [isValidNameUserInput, setIsValidNameUserInput] = useState(true);
   const [nameUserErrorText, setNameUserErrorText] = useState("");
@@ -46,7 +46,9 @@ export default function Profile({isLoading, userData, editDataUser, handleClickL
   }
 
   useEffect(() => {
-    setIsValid(isValidNameUserInput && isValidEmailUserInput && (nameUser || emailUser));
+    setIsValid(isValidNameUserInput && isValidEmailUserInput &&
+      (nameUser || emailUser) &&
+      (userData.name !== nameUser && userData.email !== emailUser) );
   }, [isValidNameUserInput, isValidEmailUserInput, nameUser, emailUser]);
 
   return isLoading ? (
@@ -94,7 +96,7 @@ export default function Profile({isLoading, userData, editDataUser, handleClickL
         <button
           type="button"
           className="profile__button profile__button_exit"
-          onClick={handleClickLogged}
+          onClick={handleClickLoggedOut}
           >
           Выйти из аккаунта
         </button>

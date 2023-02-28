@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
 function Header({ isLogged, togleRegisteredUser, currentUser }) {
+  const location = useLocation();
+
   function handleClickBurgerMenu() {
     if (document.querySelector('.burger__button-close')) {
       document.querySelector('.burger__button-close').className = "burger__button-close_active";
@@ -22,10 +24,10 @@ function Header({ isLogged, togleRegisteredUser, currentUser }) {
       </Link>
       {isLogged ? (
         <div className="header__block">
-          <Link to="/movies" className="header__link">
+          <Link to="/movies" className= { location.pathname === "/movies" ? "header__link header__link_active" : "header__link" }>
             Фильмы
           </Link>
-          <Link to="/saved-movies" className="header__link">
+          <Link to="/saved-movies" className={ location.pathname === "/saved-movies" ? "header__link header__link_active" : "header__link" }>
             Сохранённые фильмы
           </Link>
         </div>

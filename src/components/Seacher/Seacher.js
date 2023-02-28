@@ -7,12 +7,12 @@ export default function Seacher({
 }) {
 
   const [inputFilter, setInputFilter] = useState("");
-  const [isInputFilterValid, setIsInputFilterValid] = useState(true);
+  const [isInputFilterValid, setIsInputFilterValid] = useState(false);
 
   function handleSubmitFilter(e) {
     e.preventDefault();
     filterMovies(inputFilter);
-    setInputFilter("");
+    localStorage.setItem('dataSearcher', JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie}));
     setIsInputFilterValid(false);
   }
 
@@ -24,13 +24,19 @@ export default function Seacher({
       setIsInputFilterValid(false);
     }
   }
- useEffect(() => {
+
+  function handleChangeShortMovieFilter () {
+    handleTogleShortMovies();
+    localStorage.setItem('dataSearcher', JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie}));
+  }
+
+  useEffect(() => {
     setIsInputFilterValid(isInputFilterValid);
   }, [isInputFilterValid]);
 
   useEffect (()=>{
-    /* getShortFilm(isShortFilm); */
-  }, [isShortMovie]);
+    setInputFilter(JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter)
+  }, []);
 
   return (
     <section className="seacher section">
@@ -51,7 +57,7 @@ export default function Seacher({
             }
             type="submit"
           />
-          <button type="button" onClick={handleTogleShortMovies} className="seacher__track">
+          <button type="button" onClick={handleChangeShortMovieFilter} className="seacher__track">
             <div className={isShortMovie ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
             <p className={isShortMovie ? "seacher__label" : "seacher__label seacher__label_inactive"}>Короткометражки</p>
           </button>

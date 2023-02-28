@@ -51,3 +51,6 @@
 
 /* import NotFoundPage*/
 @import url('./components/NotFoundPage/NotFoundPage.css');
+
+/* import popup */
+@import url('./components/InfoTooltip/InfoTooltip.css');
