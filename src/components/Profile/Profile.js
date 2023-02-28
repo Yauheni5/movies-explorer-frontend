@@ -48,7 +48,9 @@ export default function Profile({isLoading, userData, editDataUser, handleClickL
   useEffect(() => {
     setIsValid(isValidNameUserInput && isValidEmailUserInput &&
       (nameUser || emailUser) &&
-      (userData.name !== nameUser && userData.email !== emailUser) );
+      ((userData.name !== nameUser && userData.email === emailUser) ||
+      (userData.name === nameUser && userData.email !== emailUser)  ||
+      (userData.name !== nameUser && userData.email !== emailUser)));
   }, [isValidNameUserInput, isValidEmailUserInput, nameUser, emailUser]);
 
   return isLoading ? (
