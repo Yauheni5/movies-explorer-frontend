@@ -54,3 +54,6 @@
 
 /* import popup */
 @import url('./components/InfoTooltip/InfoTooltip.css');
+
+/* import not-found */
+@import url('./blocks/not-found/not-found.css');

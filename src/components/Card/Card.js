@@ -1,5 +1,4 @@
 export default function Card({
-  currentUser,
   viewNumberFilm,
   handleTogleSavedMovies,
   isSavedFilms,
@@ -40,51 +39,53 @@ export default function Card({
     return false;
   }
 
-  const movies = visibleMovieList?.map((item, index) => {
-    if (index < viewNumberFilm) {
-      return (
-        <li className="card" key={item?.id || item?._id}>
-          <h2 className="card__title">{item.nameRU}</h2>
-          <p className="card__subtitle">{handleTimeDuration(item.duration)}</p>
+  const movies = (visibleMovieList?.length > 0) ?
+    visibleMovieList?.map((item, index) => {
+      if (index < viewNumberFilm) {
+        return (
+          <li className="card" key={item?.id || item?._id}>
+            <h2 className="card__title">{item.nameRU}</h2>
+            <p className="card__subtitle">{handleTimeDuration(item.duration)}</p>
 
-          <button
-            type="button"
-            className={
-              isSavedFilms
-                ? "card__button-delete"
-                : checkSavedMovie(item)
-                ? "card__button-like card__button-like_active"
-                : "card__button-like"
-            }
-            onClick={
-              isSavedFilms
-                ? (e) => handleDeleteMovie(e, item)
-                : (e) => handleClickLike(e, item)
-            }
-          />
-          <a
-            href={item.trailerLink}
-            target="_blank"
-            rel="noreferrer"
-            className="card__link card__image">
-            <img
-              className="card__image"
-              src={
+            <button
+              type="button"
+              className={
                 isSavedFilms
-                  ? item.image.url
+                  ? "card__button-delete"
+                  : checkSavedMovie(item)
+                  ? "card__button-like card__button-like_active"
+                  : "card__button-like"
+              }
+              onClick={
+                isSavedFilms
+                  ? (e) => handleDeleteMovie(e, item)
+                  : (e) => handleClickLike(e, item)
+              }
+            />
+            <a
+              href={item.trailerLink}
+              target="_blank"
+              rel="noreferrer"
+              className="card__link card__image">
+              <img
+                className="card__image"
+                src={
+                  isSavedFilms
+                    ? item.image.url
+                      ? "https://api.nomoreparties.co/" + item.image.url
+                      : item.image
+                    : item.image.url
                     ? "https://api.nomoreparties.co/" + item.image.url
                     : item.image
-                  : item.image.url
-                  ? "https://api.nomoreparties.co/" + item.image.url
-                  : item.image
-              }
-              alt={"миниатюрное изображение постера к фильму" + item.nameRU}
-            />
-          </a>
-        </li>
-      );
-    }
-  });
+                }
+                alt={"миниатюрное изображение постера к фильму" + item.nameRU}
+              />
+            </a>
+          </li>
+        );
+      }
+    })
+    : <h2 className="not-found">Ничего не найдено</h2>
 
   return movies;
 }

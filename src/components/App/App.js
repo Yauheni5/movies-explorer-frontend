@@ -39,8 +39,14 @@ function App() {
   const [isSavedFilms, setIsSavedFilms] = useState(false);
   const [isFilterMovie, setIsFilterMovie] = useState(false);
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const [isShortMovie, setIsShortMovie] = useState(true);
   const [visibleMovieList, setVisibleMovieList] = useState([]);
+
+  const [isShortMovie, setIsShortMovie] = useState(true);
+  const [isShortSavedMovie, setIsShortSavedMovie] = useState(true);
+  const [inputFilterMovies, setInputFilterMovies] = useState("");
+  const [isInputFilterValidMovies, setIsInputFilterValidMovies] = useState(false);
+  const [inputFilterSavedMovies, setInputFilterSavedMovies] = useState("");
+  const [isInputFilterValidSavedMovies, setIsInputFilterValidSavedMovies] = useState(false);
 
   function setTooltipErrorInfo(errorResponse) {
     setIsInfoToolTipOpen(true);
@@ -63,10 +69,12 @@ function App() {
           setCurrentUser(userInfo.data);
         })
         .catch((error) => {
-          error.json().then((error) => {
-            setTooltipErrorInfo(error);
-            console.log(error.message || error.status); // выведем ошибку в консоль
-          });
+          if (error.json()) {
+            error.json().then((error) => {
+              setTooltipErrorInfo(error);
+              console.log(error.message || error.status); // выведем ошибку в консоль
+            })
+          } else console.log(error);
         });
     }
   }, [loggedIn, token, isRegisteredUser]);
@@ -92,10 +100,12 @@ function App() {
       setLoggedIn(true);
       localStorage.setItem("token", tokenUser.token);
     } catch (error) {
-      error.json().then((error) => {
-        setTooltipErrorInfo(error);
-        console.log(error.message || error.status); // выведем ошибку в консоль
-      });
+      if (error.json()) {
+        error.json().then((error) => {
+          setTooltipErrorInfo(error);
+          console.log(error.message || error.status); // выведем ошибку в консоль
+        })
+      } else console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -118,10 +128,12 @@ function App() {
       setIsRegisteredUser(true);
       localStorage.setItem("token", dataUser.token);
     } catch (error) {
-      error.json().then((error) => {
-        setTooltipErrorInfo(error);
-        console.log(error.message || error.status); // выведем ошибку в консоль
-      });
+      if (error.json()) {
+        error.json().then((error) => {
+          setTooltipErrorInfo(error);
+          console.log(error.message || error.status); // выведем ошибку в консоль
+        })
+      } else console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -146,10 +158,12 @@ function App() {
         text: "Данные профиля успешно обновлены!",
       });
     } catch (error) {
-      error.json().then((error) => {
-        setTooltipErrorInfo(error);
-        console.log(error.message || error.status); // выведем ошибку в консоль
-      });
+      if (error.json()) {
+        error.json().then((error) => {
+          setTooltipErrorInfo(error);
+          console.log(error.message || error.status); // выведем ошибку в консоль
+        })
+      } else console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -173,10 +187,12 @@ function App() {
       const filterSavedMoviesUserOwner = savedMoviesArr.data.filter(movie => movie.owner._id === currentUser._id);
       setSavedMovies(await filterSavedMoviesUserOwner);
     } catch (error) {
-      error.json().then((error) => {
-        setTooltipErrorInfo(error);
-        console.log(error.message || error.status); // выведем ошибку в консоль
-      });
+      if (error.json()) {
+        error.json().then((error) => {
+          setTooltipErrorInfo(error);
+          console.log(error.message || error.status); // выведем ошибку в консоль
+        })
+      } else console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -187,10 +203,12 @@ function App() {
       await mainApi.saveMovie(dataMovie, token);
       await getSavedMovies();
     } catch (error) {
-      error.json().then((error) => {
-        setTooltipErrorInfo(error);
-        console.log(error.message || error.status); // выведем ошибку в консоль
-      });
+      if (error.json()) {
+        error.json().then((error) => {
+          setTooltipErrorInfo(error);
+          console.log(error.message || error.status); // выведем ошибку в консоль
+        })
+      } else console.log(error);
     }
   }
 
@@ -208,52 +226,57 @@ function App() {
       }
       await getSavedMovies();
     } catch (error) {
-      error.json().then((error) => {
-        setTooltipErrorInfo(error);
-        console.log(error.message || error.status); // выведем ошибку в консоль
-      });
+      if (error.json()) {
+        error.json().then((error) => {
+          setTooltipErrorInfo(error);
+          console.log(error.message || error.status); // выведем ошибку в консоль
+        })
+      } else console.log(error);
     }
   }
 
   function handleTogleShortMovies() {
-    setIsShortMovie(!isShortMovie);
+    isSavedFilms ? setIsShortSavedMovie(!isShortSavedMovie) : setIsShortMovie(!isShortMovie);
   }
 
   function handleTogleFilterShortMovies() {
     localStorage.setItem(
       "dataSearcher",
       JSON.stringify({
-        inputFilter: JSON.parse(localStorage?.getItem("dataSearcher"))
-          ?.inputFilter,
-        isShortMovie: isShortMovie,
+        inputFilter: isSavedFilms ? inputFilterSavedMovies : inputFilterMovies,
+        isShortMovie: isSavedFilms ? isShortSavedMovie : isShortMovie,
       })
     );
   }
 
   function filterShortMovies(movies) {
-    if (isShortMovie) {
+    if (isSavedFilms ? isShortSavedMovie : isShortMovie) {
       return movies;
     } else {
       return movies.filter((movie) => movie.duration > SHORT_MOVIE_TIME && movie);
     }
   }
 
-  function filterMovies(inputFilter) {
-    if (inputFilter) {
+  function filterMovies(inputFilterData) {
+    if (inputFilterData) {
       if (isSavedFilms) {
         const resultFilter = savedMovies.filter(
           (movie) =>
-            movie.nameRU.toLowerCase().includes(inputFilter.toLowerCase()) &&
+            movie.nameRU.toLowerCase().includes(inputFilterData.toLowerCase()) &&
             movie
         );
-        setFilteredMovies(filterShortMovies(resultFilter));
+        if (resultFilter.length !== 0) {
+          setFilteredMovies(filterShortMovies(resultFilter));
+        } else setFilteredMovies([])
       } else {
         const resultFilter = dataMovies.filter(
           (movie) =>
-            movie.nameRU.toLowerCase().includes(inputFilter.toLowerCase()) &&
+            movie.nameRU.toLowerCase().includes(inputFilterData.toLowerCase()) &&
             movie
         );
-        setFilteredMovies(filterShortMovies(resultFilter));
+        if (resultFilter.length !== 0) {
+          setFilteredMovies(filterShortMovies(resultFilter));
+        } else setFilteredMovies([])
       }
     } else {
       if (isSavedFilms) {
@@ -262,21 +285,28 @@ function App() {
         setFilteredMovies(filterShortMovies(dataMovies));
       }
     }
+    isSavedFilms ? setIsInputFilterValidSavedMovies(false) : setIsInputFilterValidMovies(false);
+  }
+
+  function handleChangeFilterInput (e) {
+    isSavedFilms ? setInputFilterSavedMovies(e.target.value) : setInputFilterMovies(e.target.value);
+    if (e.target.validity.valid) {
+      isSavedFilms ? setIsInputFilterValidSavedMovies(true) : setIsInputFilterValidMovies(true);
+    } else {
+      isSavedFilms ? setIsInputFilterValidSavedMovies(false) : setIsInputFilterValidMovies(false);
+    }
   }
 
   function checkIsFilterStorage() {
+    const inputFilterStorage = JSON.parse(localStorage?.getItem("dataSearcher")).inputFilter;
+    const shortMovieStorage = JSON.parse(localStorage?.getItem("dataSearcher")).isShortMovie;
     if (
-      JSON.parse(localStorage?.getItem("dataSearcher")).inputFilter !==
+      inputFilterStorage !==
       undefined
     ) {
       setIsFilterMovie(true);
-      filterMovies(
-        JSON.parse(localStorage.getItem("dataSearcher")).inputFilter
-      );
-    } else if (
-      JSON.parse(localStorage?.getItem("dataSearcher")).isShortMovie !==
-      undefined
-    ) {
+      filterMovies(inputFilterStorage);
+    } else if (shortMovieStorage !== undefined) {
       setIsFilterMovie(true);
       filterMovies("");
     } else {
@@ -303,13 +333,22 @@ function App() {
   }
 
   useEffect(() => {
+    isSavedFilms ?
+    setIsInputFilterValidSavedMovies(isInputFilterValidSavedMovies) :
+    setIsInputFilterValidMovies(isInputFilterValidMovies);
+  }, [isInputFilterValidMovies, isInputFilterValidSavedMovies]);
+
+  useEffect(() => {
     handleTogleFilterShortMovies();
     setVisibleMovieList();
     checkIsFilterStorage();
-  }, [isShortMovie, isSavedFilms, savedMovies]);
+  }, [isShortMovie, isShortSavedMovie, isSavedFilms, savedMovies]);
 
   useEffect(() => {
     checkLocation();
+    isSavedFilms ?
+    setInputFilterSavedMovies(JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter) :
+    setInputFilterMovies(JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter);
   }, [location, isSavedFilms, savedMovies, filteredMovies]);
 
   useEffect(() => {
@@ -347,10 +386,12 @@ function App() {
           setCurrentUser(res.data);
         })
         .catch((error) => {
-          error.json().then((error) => {
-            setTooltipErrorInfo(error);
-            console.log(error.message || error.status); // выведем ошибку в консоль
-          });
+          if (error.json()) {
+            error.json().then((error) => {
+              setTooltipErrorInfo(error);
+              console.log(error.message || error.status); // выведем ошибку в консоль
+            })
+          } else console.log(error);
         });
     }
   }, [loggedIn, token]);
@@ -365,7 +406,7 @@ function App() {
             ) : isRegisteredUser ? (
               <Redirect to="/signin" />
             ) : (
-              <Redirect to="/" />
+              <Redirect to="/signup" />
             )}
             <Register
               registrationUser={registrationUser}
@@ -397,6 +438,9 @@ function App() {
               isLogged={loggedIn}
               children={[
                 <Seacher
+                  inputFilter={inputFilterMovies}
+                  isInputFilterValid={isInputFilterValidMovies}
+                  handleChangeFilterInput={handleChangeFilterInput}
                   isShortMovie={isShortMovie}
                   handleTogleShortMovies={handleTogleShortMovies}
                   filterMovies={filterMovies}
@@ -425,7 +469,10 @@ function App() {
               isLogged={loggedIn}
               children={[
                 <Seacher
-                  isShortMovie={isShortMovie}
+                  inputFilter={inputFilterSavedMovies}
+                  isInputFilterValid={isInputFilterValidSavedMovies}
+                  handleChangeFilterInput={handleChangeFilterInput}
+                  isShortMovie={isShortSavedMovie}
                   handleTogleShortMovies={handleTogleShortMovies}
                   filterMovies={filterMovies}
                 />,

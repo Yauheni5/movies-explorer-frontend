@@ -1,42 +1,17 @@
-import { useEffect, useState } from "react"
-
 export default function Seacher({
+  inputFilter,
+  isInputFilterValid,
   handleTogleShortMovies,
+  handleChangeFilterInput,
   isShortMovie,
   filterMovies
 }) {
-
-  const [inputFilter, setInputFilter] = useState("");
-  const [isInputFilterValid, setIsInputFilterValid] = useState(false);
 
   function handleSubmitFilter(e) {
     e.preventDefault();
     filterMovies(inputFilter);
     localStorage.setItem('dataSearcher', JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie}));
-    setIsInputFilterValid(false);
   }
-
-  function handleChangeFilterInput (e) {
-    setInputFilter(e.target.value)
-    if (e.target.validity.valid) {
-      setIsInputFilterValid(true);
-    } else {
-      setIsInputFilterValid(false);
-    }
-  }
-
-  function handleChangeShortMovieFilter () {
-    handleTogleShortMovies();
-    localStorage.setItem('dataSearcher', JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie}));
-  }
-
-  useEffect(() => {
-    setIsInputFilterValid(isInputFilterValid);
-  }, [isInputFilterValid]);
-
-  useEffect (()=>{
-    setInputFilter(JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter)
-  }, []);
 
   return (
     <section className="seacher section">
@@ -57,7 +32,7 @@ export default function Seacher({
             }
             type="submit"
           />
-          <button type="button" onClick={handleChangeShortMovieFilter} className="seacher__track">
+          <button type="button" onClick={handleTogleShortMovies} className="seacher__track">
             <div className={isShortMovie ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
             <p className={isShortMovie ? "seacher__label" : "seacher__label seacher__label_inactive"}>Короткометражки</p>
           </button>
