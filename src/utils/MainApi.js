@@ -1,6 +1,7 @@
 class MainApi {
   constructor(){
-    this.url = 'http://api.diploma-yauheni.nomoredomainsclub.ru';
+    //this.url = 'http://api.diploma-yauheni.nomoredomainsclub.ru';
+    this.url ='http://158.160.29.20';
   }
 
   _checkResponseError = (res) => {
@@ -121,7 +122,7 @@ class MainApi {
   }
 
   getAllPromise(token) {
-    return Promise.all([this.getUserInfo(token)])
+    return Promise.all([this.getUserInfo(token), this.getSavedMovies(token)])
   }
 }
 

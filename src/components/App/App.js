@@ -61,8 +61,8 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      getAllDataMovies();
       getSavedMovies();
+      getAllDataMovies();
       mainApi
         .getAllPromise(token)
         .then(([userInfo]) => {
@@ -143,7 +143,23 @@ function App() {
     setIsRegisteredUser(false);
     setLoggedIn(false);
     setCurrentUser({});
+    setSavedMovies([]);
     setIsFilterMovie(false);
+    setIsSavedFilms(false);
+    setFilteredMovies([]);
+    setVisibleMovieList([]);
+    setIsShortMovie(true);
+    setIsShortSavedMovie(true);
+    setInputFilterMovies("");
+    setIsInputFilterValidMovies(false);
+    setInputFilterSavedMovies("");
+    setIsInputFilterValidSavedMovies(false);
+    setIsInfoToolTipOpen(false);
+    setInfoToolTipStatus({
+      status: false,
+      text: "",
+    })
+    setIsLoading(false);
     localStorage.clear();
   }
 

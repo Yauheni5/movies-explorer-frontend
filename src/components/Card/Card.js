@@ -31,7 +31,8 @@ export default function Card({
   }
 
   function checkSavedMovie(item) {
-    if (savedMovies) {
+    console.log(savedMovies)
+    if (!isSavedFilms && savedMovies) {
       return savedMovies.some((movie) => {
         return (movie.nameRU === item.nameRU) ;
       });

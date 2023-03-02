@@ -75,7 +75,7 @@ export default function Login({
           type="email"
           required
         />
-        <p className="register__eror">{emailUserErrorText || ""}</p>
+        <p className="register__error">{emailUserErrorText || ""}</p>
         <p className="register__label">Пароль</p>
         <input
           className="register__input"
@@ -84,7 +84,7 @@ export default function Login({
           type="password"
           required
         />
-        <p className="register__eror">{passwordErrorText || ""}</p>
+        <p className="register__error">{passwordErrorText || ""}</p>
         <button
           type="submit"
           className={
