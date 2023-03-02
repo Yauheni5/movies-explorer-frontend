@@ -1,7 +1,8 @@
 class MainApi {
   constructor(){
-    //this.url = 'http://api.diploma-yauheni.nomoredomainsclub.ru';
-    this.url ='http://158.160.29.20';
+    this.url = 'http://api.diploma-yauheni.nomoredomainsclub.ru';
+    //если просрочено доменное имя
+    //this.url ='http://158.160.29.20';
   }
 
   _checkResponseError = (res) => {

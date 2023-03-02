@@ -48,6 +48,8 @@ export default function Login({
   function handleSubmit(e) {
     e.preventDefault();
     isValid && authorizationUser({ email: emailUser, password: password });
+    setIsValidEmailUserInput(false);
+    setIsValidPasswordInput(false);
   }
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export default function Login({
         <img className="logo" src={logo} alt="логотип приложения" />
       </Link>
       <h2 className="register__title">Рады видеть!</h2>
-      <form className="register__form" onSubmit={handleSubmit} noValidate>
+      <form className="register__form" onSubmit={(e)=>handleSubmit(e)} noValidate>
         <p className="register__label">E-mail</p>
         <input
           className={

@@ -50,7 +50,10 @@ export default function Profile({isLoading, userData, editDataUser, handleClickL
       (nameUser || emailUser) &&
       ((userData.name !== nameUser && userData.email === emailUser) ||
       (userData.name === nameUser && userData.email !== emailUser)  ||
-      (userData.name !== nameUser && userData.email !== emailUser)));
+      (userData.name !== nameUser && userData.email !== emailUser)) &&
+      (((emailUser === "") && (userData.name !== nameUser)) ||
+      ((nameUser === "") && (userData.email !== emailUser))) &&
+      (nameUser !== "" || emailUser !==""));
   }, [isValidNameUserInput, isValidEmailUserInput, nameUser, emailUser]);
 
   return isLoading ? (
@@ -73,11 +76,12 @@ export default function Profile({isLoading, userData, editDataUser, handleClickL
         <div className="profile__field profile__field_email">
           <p className="profile__field-title profile__field-title_email">E&#8209;mail</p>
           <input
-          className="profile__input profile__input_email"
-          type="email"
-          placeholder={emailUser || userData.email}
-          value={emailUser || ""}
-          onChange={handleChangeEmail}
+            className="profile__input profile__input_email"
+            type="email"
+            placeholder={emailUser || userData.email}
+            minLength={5}
+            value={emailUser || ""}
+            onChange={handleChangeEmail}
           />
           <p className="profile__error">{emailUserErrorText || ""}</p>
         </div>

@@ -62,6 +62,9 @@ export default function Register({
         email: emailUser,
         password: password,
       });
+      setIsValidNameUserInput(false)
+      setIsValidEmailUserInput(false);
+      setIsValidPasswordInput(false);
   }
 
   useEffect(() => {
@@ -78,7 +81,7 @@ export default function Register({
         <img className="logo" src={logo} alt="логотип приложения" />
       </Link>
       <h2 className="register__title">Добро пожаловать!</h2>
-      <form className="register__form" onSubmit={handleSubmit} noValidate>
+      <form className="register__form" onSubmit={(e)=>handleSubmit(e)} noValidate>
         <p className="register__label">Имя</p>
         <input
           className={

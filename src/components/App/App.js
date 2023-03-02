@@ -59,26 +59,6 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    if (loggedIn) {
-      getSavedMovies();
-      getAllDataMovies();
-      mainApi
-        .getAllPromise(token)
-        .then(([userInfo]) => {
-          setCurrentUser(userInfo.data);
-        })
-        .catch((error) => {
-          if (error.json()) {
-            error.json().then((error) => {
-              setTooltipErrorInfo(error);
-              console.log(error.message || error.status); // выведем ошибку в консоль
-            })
-          } else console.log(error);
-        });
-    }
-  }, [loggedIn, token, isRegisteredUser]);
-
   async function registrationUser(data) {
     try {
       setIsLoading(true);
@@ -99,13 +79,11 @@ function App() {
       setIsRegisteredUser(true);
       setLoggedIn(true);
       localStorage.setItem("token", tokenUser.token);
-    } catch (error) {
-      if (error.json()) {
-        error.json().then((error) => {
+    } catch (err) {
+        err.json().then((error) => {
           setTooltipErrorInfo(error);
-          console.log(error.message || error.status); // выведем ошибку в консоль
-        })
-      } else console.log(error);
+          console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+        });
     } finally {
       setIsLoading(false);
     }
@@ -127,13 +105,11 @@ function App() {
       setLoggedIn(true);
       setIsRegisteredUser(true);
       localStorage.setItem("token", dataUser.token);
-    } catch (error) {
-      if (error.json()) {
-        error.json().then((error) => {
-          setTooltipErrorInfo(error);
-          console.log(error.message || error.status); // выведем ошибку в консоль
-        })
-      } else console.log(error);
+    } catch (err) {
+      err.json().then((error) => {
+        setTooltipErrorInfo(error);
+        console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+      });
     } finally {
       setIsLoading(false);
     }
@@ -202,13 +178,11 @@ function App() {
       const savedMoviesArr = await mainApi.getSavedMovies(token);
       const filterSavedMoviesUserOwner = savedMoviesArr.data.filter(movie => movie.owner._id === currentUser._id);
       setSavedMovies(await filterSavedMoviesUserOwner);
-    } catch (error) {
-      if (error.json()) {
-        error.json().then((error) => {
-          setTooltipErrorInfo(error);
-          console.log(error.message || error.status); // выведем ошибку в консоль
-        })
-      } else console.log(error);
+    } catch (err) {
+      err.json().then((error) => {
+        setTooltipErrorInfo(error);
+        console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+      });
     } finally {
       setIsLoading(false);
     }
@@ -218,14 +192,12 @@ function App() {
     try {
       await mainApi.saveMovie(dataMovie, token);
       await getSavedMovies();
-    } catch (error) {
-      if (error.json()) {
-        error.json().then((error) => {
-          setTooltipErrorInfo(error);
-          console.log(error.message || error.status); // выведем ошибку в консоль
-        })
-      } else console.log(error);
-    }
+    } catch (err) {
+      err.json().then((error) => {
+        setTooltipErrorInfo(error);
+        console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+      });
+  }
   }
 
   async function handleDeleteSavedMovie(movieDeleted) {
@@ -241,13 +213,11 @@ function App() {
         await mainApi.deleteSavedMovie(movieDeleted, token);
       }
       await getSavedMovies();
-    } catch (error) {
-      if (error.json()) {
-        error.json().then((error) => {
-          setTooltipErrorInfo(error);
-          console.log(error.message || error.status); // выведем ошибку в консоль
-        })
-      } else console.log(error);
+    } catch (err) {
+      err.json().then((error) => {
+        setTooltipErrorInfo(error);
+        console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+      });
     }
   }
 
@@ -256,13 +226,15 @@ function App() {
   }
 
   function handleTogleFilterShortMovies() {
-    localStorage.setItem(
-      "dataSearcher",
-      JSON.stringify({
-        inputFilter: isSavedFilms ? inputFilterSavedMovies : inputFilterMovies,
-        isShortMovie: isSavedFilms ? isShortSavedMovie : isShortMovie,
-      })
-    );
+    if (loggedIn) {
+      localStorage.setItem(
+        "dataSearcher",
+        JSON.stringify({
+          inputFilter: isSavedFilms ? inputFilterSavedMovies : inputFilterMovies,
+          isShortMovie: isSavedFilms ? isShortSavedMovie : isShortMovie,
+        })
+      );
+    }
   }
 
   function filterShortMovies(movies) {
@@ -314,20 +286,22 @@ function App() {
   }
 
   function checkIsFilterStorage() {
-    const inputFilterStorage = JSON.parse(localStorage?.getItem("dataSearcher")).inputFilter;
-    const shortMovieStorage = JSON.parse(localStorage?.getItem("dataSearcher")).isShortMovie;
-    if (
-      inputFilterStorage !==
-      undefined
-    ) {
-      setIsFilterMovie(true);
-      filterMovies(inputFilterStorage);
-    } else if (shortMovieStorage !== undefined) {
-      setIsFilterMovie(true);
-      filterMovies("");
-    } else {
-      setIsFilterMovie(false);
-      filterMovies("");
+    if (loggedIn) {
+      const inputFilterStorage = JSON.parse(localStorage?.getItem("dataSearcher")).inputFilter;
+      const shortMovieStorage = JSON.parse(localStorage?.getItem("dataSearcher")).isShortMovie;
+      if (
+        inputFilterStorage !==
+        undefined
+      ) {
+        setIsFilterMovie(true);
+        filterMovies(inputFilterStorage);
+      } else if (shortMovieStorage !== undefined) {
+        setIsFilterMovie(true);
+        filterMovies("");
+      } else {
+        setIsFilterMovie(false);
+        filterMovies("");
+      }
     }
   }
 
@@ -363,8 +337,8 @@ function App() {
   useEffect(() => {
     checkLocation();
     isSavedFilms ?
-    setInputFilterSavedMovies(JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter) :
-    setInputFilterMovies(JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter);
+    setInputFilterSavedMovies(inputFilterSavedMovies) :
+    setInputFilterMovies((JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter) || "");
   }, [location, isSavedFilms, savedMovies, filteredMovies]);
 
   useEffect(() => {
@@ -401,14 +375,33 @@ function App() {
           setLoggedIn(true);
           setCurrentUser(res.data);
         })
-        .catch((error) => {
-          if (error.json()) {
-            error.json().then((error) => {
+        .catch((err) => {
+            err.json().then((error) => {
               setTooltipErrorInfo(error);
-              console.log(error.message || error.status); // выведем ошибку в консоль
-            })
-          } else console.log(error);
+              console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+            });
         });
+    }
+  }, [loggedIn, token]);
+
+  useEffect(() => {
+    if (token) {
+      mainApi
+        .getAllPromise(token)
+        .then(([dataUser, dataSavedMovies]) => {
+          setCurrentUser(dataUser.data);
+          const filterSavedMoviesUserOwner = dataSavedMovies.data.filter((movie) => {
+            return movie.owner._id === dataUser.data._id;
+          });
+          setSavedMovies(filterSavedMoviesUserOwner);
+          getAllDataMovies();
+        })
+        .catch((err) => {
+          err.json().then((error) => {
+            setTooltipErrorInfo(error);
+            console.log(error.message || error.error || err.status); // выведем ошибку в консоль
+          });
+      });
     }
   }, [loggedIn, token]);
 
