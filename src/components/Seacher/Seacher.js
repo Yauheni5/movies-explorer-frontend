@@ -1,4 +1,5 @@
 export default function Seacher({
+  isSavedFilms,
   inputFilter,
   isInputFilterValid,
   handleTogleShortMovies,
@@ -10,7 +11,9 @@ export default function Seacher({
   function handleSubmitFilter(e) {
     e.preventDefault();
     filterMovies(inputFilter);
-    localStorage.setItem('dataSearcher', JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie}));
+    !isSavedFilms && localStorage.setItem('dataSearcher',
+      JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie
+    }));
   }
 
   return (

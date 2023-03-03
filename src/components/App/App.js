@@ -43,7 +43,7 @@ function App() {
 
   const [isShortMovie, setIsShortMovie] = useState(true);
   const [isShortSavedMovie, setIsShortSavedMovie] = useState(true);
-  const [inputFilterMovies, setInputFilterMovies] = useState("");
+  const [inputFilterMovies, setInputFilterMovies] = useState(JSON.parse(localStorage?.getItem("dataSearcher"))?.inputFilter || "");
   const [isInputFilterValidMovies, setIsInputFilterValidMovies] = useState(false);
   const [inputFilterSavedMovies, setInputFilterSavedMovies] = useState("");
   const [isInputFilterValidSavedMovies, setIsInputFilterValidSavedMovies] = useState(false);
@@ -230,8 +230,8 @@ function App() {
       localStorage.setItem(
         "dataSearcher",
         JSON.stringify({
-          inputFilter: isSavedFilms ? inputFilterSavedMovies : inputFilterMovies,
-          isShortMovie: isSavedFilms ? isShortSavedMovie : isShortMovie,
+          inputFilter: /* isSavedFilms ? inputFilterSavedMovies : */ inputFilterMovies,
+          isShortMovie: /* isSavedFilms ? isShortSavedMovie : */ isShortMovie,
         })
       );
     }
@@ -288,16 +288,13 @@ function App() {
   function checkIsFilterStorage() {
     if (loggedIn) {
       const inputFilterStorage = JSON.parse(localStorage?.getItem("dataSearcher")).inputFilter;
-      const shortMovieStorage = JSON.parse(localStorage?.getItem("dataSearcher")).isShortMovie;
       if (
-        inputFilterStorage !==
-        undefined
-      ) {
+        inputFilterStorage && !isSavedFilms) {
         setIsFilterMovie(true);
         filterMovies(inputFilterStorage);
-      } else if (shortMovieStorage !== undefined) {
+      } else if (isSavedFilms) {
         setIsFilterMovie(true);
-        filterMovies("");
+        filterMovies(inputFilterSavedMovies);
       } else {
         setIsFilterMovie(false);
         filterMovies("");
@@ -307,6 +304,7 @@ function App() {
 
   function checkLocation() {
     if (location.pathname === "/saved-movies") {
+      setInputFilterSavedMovies("");
       setIsSavedFilms(true);
     } else if (location.pathname === "/movies") {
       setIsSavedFilms(false);
@@ -314,7 +312,8 @@ function App() {
     setVisibleMoviesListFunc();
   }
 
-  function setVisibleMoviesListFunc() {
+  async function setVisibleMoviesListFunc() {
+    console.log(isFilterMovie, filteredMovies)
     isFilterMovie
       ? setVisibleMovieList(filterShortMovies(filteredMovies))
       : isSavedFilms
@@ -330,7 +329,7 @@ function App() {
 
   useEffect(() => {
     handleTogleFilterShortMovies();
-    setVisibleMovieList();
+    setVisibleMoviesListFunc();
     checkIsFilterStorage();
   }, [isShortMovie, isShortSavedMovie, isSavedFilms, savedMovies]);
 
@@ -390,12 +389,14 @@ function App() {
         .getAllPromise(token)
         .then(([dataUser, dataSavedMovies]) => {
           setCurrentUser(dataUser.data);
+          setIsRegisteredUser(true);
+          setLoggedIn(true);
           const filterSavedMoviesUserOwner = dataSavedMovies.data.filter((movie) => {
             return movie.owner._id === dataUser.data._id;
           });
           setSavedMovies(filterSavedMoviesUserOwner);
-          getAllDataMovies();
         })
+        .then(getAllDataMovies())
         .catch((err) => {
           err.json().then((error) => {
             setTooltipErrorInfo(error);
@@ -447,6 +448,7 @@ function App() {
               isLogged={loggedIn}
               children={[
                 <Seacher
+                  isSavedFilms={isSavedFilms}
                   inputFilter={inputFilterMovies}
                   isInputFilterValid={isInputFilterValidMovies}
                   handleChangeFilterInput={handleChangeFilterInput}
@@ -478,6 +480,7 @@ function App() {
               isLogged={loggedIn}
               children={[
                 <Seacher
+                  isSavedFilms={isSavedFilms}
                   inputFilter={inputFilterSavedMovies}
                   isInputFilterValid={isInputFilterValidSavedMovies}
                   handleChangeFilterInput={handleChangeFilterInput}

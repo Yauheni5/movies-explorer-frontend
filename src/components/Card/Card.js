@@ -46,7 +46,6 @@ export default function Card({
           <li className="card" key={item?.id || item?._id}>
             <h2 className="card__title">{item.nameRU}</h2>
             <p className="card__subtitle">{handleTimeDuration(item.duration)}</p>
-
             <button
               type="button"
               className={
