@@ -41,9 +41,9 @@ function App() {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [visibleMovieList, setVisibleMovieList] = useState([]);
 
-  const [isShortMovie, setIsShortMovie] = useState(true);
+  const [isShortMovie, setIsShortMovie] = useState((JSON.parse(localStorage?.getItem("dataSearcher"))?.isShortMovie &&true));
   const [isShortSavedMovie, setIsShortSavedMovie] = useState(true);
-  const [inputFilterMovies, setInputFilterMovies] = useState(JSON.parse(localStorage?.getItem("dataSearcher"))?.inputFilter || "");
+  const [inputFilterMovies, setInputFilterMovies] = useState((JSON.parse(localStorage?.getItem("dataSearcher"))?.inputFilter || ""));
   const [isInputFilterValidMovies, setIsInputFilterValidMovies] = useState(false);
   const [inputFilterSavedMovies, setInputFilterSavedMovies] = useState("");
   const [isInputFilterValidSavedMovies, setIsInputFilterValidSavedMovies] = useState(false);
@@ -286,12 +286,9 @@ function App() {
   }
 
   function checkIsFilterStorage() {
-    if (loggedIn) {
-      const inputFilterStorage = JSON.parse(localStorage?.getItem("dataSearcher")).inputFilter;
-      if (
-        inputFilterStorage && !isSavedFilms) {
+      if (typeof inputFilterMovies !== "undefined" && !isSavedFilms) {
         setIsFilterMovie(true);
-        filterMovies(inputFilterStorage);
+        filterMovies(inputFilterMovies);
       } else if (isSavedFilms) {
         setIsFilterMovie(true);
         filterMovies(inputFilterSavedMovies);
@@ -299,7 +296,6 @@ function App() {
         setIsFilterMovie(false);
         filterMovies("");
       }
-    }
   }
 
   function checkLocation() {
@@ -313,7 +309,6 @@ function App() {
   }
 
   async function setVisibleMoviesListFunc() {
-    console.log(isFilterMovie, filteredMovies)
     isFilterMovie
       ? setVisibleMovieList(filterShortMovies(filteredMovies))
       : isSavedFilms
