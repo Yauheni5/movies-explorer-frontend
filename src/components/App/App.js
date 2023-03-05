@@ -297,7 +297,7 @@ function App() {
   }
 
   function checkIsFilterStorage() {
-      if (typeof inputFilterMovies !== "undefined" && !isSavedFilms) {
+      if (typeof inputFilterMovies !== "undefined" && location.pathname === "/movies") {
         setIsFilterMovie(true);
         filterMovies(inputFilterMovies);
       } else if (isSavedFilms) {
