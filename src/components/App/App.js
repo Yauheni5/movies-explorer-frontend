@@ -337,14 +337,14 @@ function App() {
     handleTogleFilterShortMovies();
     setVisibleMoviesListFunc();
     checkIsFilterStorage();
-  }, [isShortMovie, isShortSavedMovie, isSavedFilms, savedMovies]);
+  }, [isShortMovie, isShortSavedMovie, isSavedFilms, savedMovies, dataMovies]);
 
   useEffect(() => {
     checkLocation();
     isSavedFilms ?
     setInputFilterSavedMovies(inputFilterSavedMovies) :
     setInputFilterMovies((JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter) || "");
-  }, [location, isSavedFilms, savedMovies, filteredMovies, visibleMovieList]);
+  }, [location, isSavedFilms, savedMovies, dataMovies, filteredMovies, visibleMovieList]);
 
   useEffect(() => {
     function closeByEscape(evt) {
