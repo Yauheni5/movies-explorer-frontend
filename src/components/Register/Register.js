@@ -10,15 +10,15 @@ export default function Register({
   togleRegisteredUser,
 }) {
   const [nameUser, setNameUser] = useState("");
-  const [isValidNameUserInput, setIsValidNameUserInput] = useState(false);
+  const [isValidNameUserInput, setIsValidNameUserInput] = useState(true);
   const [nameUserErrorText, setNameUserErrorText] = useState("");
 
   const [emailUser, setEmailUser] = useState("");
-  const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(false);
+  const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(true);
   const [emailUserErrorText, setEmailUserErrorText] = useState("");
 
   const [password, setPassword] = useState("");
-  const [isValidPasswordInput, setIsValidPasswordInput] = useState(false);
+  const [isValidPasswordInput, setIsValidPasswordInput] = useState(true);
   const [passwordErrorText, setPasswordErrorText] = useState("");
 
   const [isValid, setIsValid] = useState(false);
@@ -34,8 +34,14 @@ export default function Register({
   };
 
   function handleChangeNameUser(e) {
-    handleChangeInputError(e, setNameUserErrorText, setIsValidNameUserInput);
-    setNameUser(e.target.value);
+    if (e.target.value === "") {
+      setIsValidNameUserInput(true);
+      setNameUserErrorText("");
+      setNameUser("")
+    } else {
+      handleChangeInputError(e, setNameUserErrorText, setIsValidNameUserInput);
+      setNameUser(e.target.value);
+    }
   }
 
   function handleChangeEmail(e) {
@@ -62,16 +68,19 @@ export default function Register({
         email: emailUser,
         password: password,
       });
-      setIsValidNameUserInput(false)
+      setNameUser(nameUser)
+      setEmailUser(emailUser);
+      setPassword(password);
+      setIsValidNameUserInput(true)
       setIsValidEmailUserInput(false);
-      setIsValidPasswordInput(false);
+      setIsValidPasswordInput(true);
   }
 
   useEffect(() => {
     setIsValid(
-      isValidNameUserInput && isValidEmailUserInput && isValidPasswordInput
+      isValidNameUserInput && isValidEmailUserInput && isValidPasswordInput && nameUser && emailUser && password
     );
-  }, [isValidNameUserInput, isValidEmailUserInput, isValidPasswordInput]);
+  }, [isValidNameUserInput, isValidEmailUserInput, isValidPasswordInput, nameUser, emailUser, password]);
 
   return isLoading ? (
     <Preloader />
@@ -91,6 +100,7 @@ export default function Register({
           }
           placeholder="Введите имя"
           onChange={handleChangeNameUser}
+          defaultValue={"" || nameUser}
           type="text"
           minLength={2}
           maxLength={30}
@@ -106,6 +116,7 @@ export default function Register({
           }
           placeholder="Введите E-mail"
           onChange={handleChangeEmail}
+          defaultValue={"" || emailUser}
           type="email"
           required
         />
@@ -119,6 +130,7 @@ export default function Register({
           }
           placeholder="Введите пароль"
           onChange={handleChangePassword}
+          defaultValue={"" || password}
           type="password"
           minLength={6}
           required

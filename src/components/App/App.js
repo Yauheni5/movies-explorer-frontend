@@ -157,13 +157,15 @@ function App() {
           text: "Данные профиля совпадают с прежними!",
         });
       }
-    } catch (error) {
-      if (error.json()) {
-        error.json().then((error) => {
-          setTooltipErrorInfo(error);
-          console.log(error.message || error.status); // выведем ошибку в консоль
-        })
-      } else console.log(error);
+    } catch (err) {
+        err.json().then((res)=> {
+          setIsInfoToolTipOpen(true);
+          setInfoToolTipStatus({
+            status: false,
+            text: res.message
+          })
+          console.log(res)
+        }) || console.log(err)
     } finally {
       setIsLoading(false);
     }
