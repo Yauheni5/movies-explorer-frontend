@@ -10,11 +10,11 @@ export default function Login({
   togleRegisteredUser,
 }) {
   const [emailUser, setEmailUser] = useState("");
-  const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(false);
+  const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(true);
   const [emailUserErrorText, setEmailUserErrorText] = useState("");
 
   const [password, setPassword] = useState("");
-  const [isValidPasswordInput, setIsValidPasswordInput] = useState(false);
+  const [isValidPasswordInput, setIsValidPasswordInput] = useState(true);
   const [passwordErrorText, setPasswordErrorText] = useState("");
 
   const [isValid, setIsValid] = useState(false);
@@ -48,13 +48,15 @@ export default function Login({
   function handleSubmit(e) {
     e.preventDefault();
     isValid && authorizationUser({ email: emailUser, password: password });
-    setIsValidEmailUserInput(false);
-    setIsValidPasswordInput(false);
+    setEmailUser(emailUser);
+    setPassword(password)
+    setIsValidEmailUserInput(true);
+    setIsValidPasswordInput(true);
   }
 
   useEffect(() => {
-    setIsValid(isValidEmailUserInput && isValidPasswordInput);
-  }, [isValidEmailUserInput, isValidPasswordInput]);
+    setIsValid(isValidEmailUserInput && isValidPasswordInput && emailUser && password);
+  }, [isValidEmailUserInput, isValidPasswordInput, emailUser, password]);
 
   return isLoading ? (
     <Preloader />
@@ -75,7 +77,9 @@ export default function Login({
           placeholder="Введите E-mail"
           onChange={handleChangeEmail}
           type="email"
+          defaultValue={"" || emailUser}
           required
+          disabled={isLoading ? "disabled" : ""}
         />
         <p className="register__error">{emailUserErrorText || ""}</p>
         <p className="register__label">Пароль</p>
@@ -84,7 +88,9 @@ export default function Login({
           placeholder="Введите пароль"
           onChange={handleChangePassword}
           type="password"
+          defaultValue={"" || password}
           required
+          disabled={isLoading ? "disabled" : ""}
         />
         <p className="register__error">{passwordErrorText || ""}</p>
         <button
@@ -94,7 +100,7 @@ export default function Login({
               ? "register__button"
               : "register__button register__button_disabled"
           }
-          disabled={isValid ? "" : "disabled"}>
+          disabled={(isValid && !isLoading) ? "" : "disabled"}>
           Войти
         </button>
         <Link

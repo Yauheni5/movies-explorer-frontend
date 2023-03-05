@@ -139,16 +139,24 @@ function App() {
     localStorage.clear();
   }
 
-  async function handleEditDataProfile(dateUserEdit) {
+  async function handleEditDataProfile(dataUserEdit) {
     try {
       setIsLoading(true);
-      const dataUserEdited = await mainApi.editUser(dateUserEdit, token);
-      setCurrentUser(dataUserEdited.data);
-      setIsInfoToolTipOpen(true);
-      setInfoToolTipStatus({
-        status: true,
-        text: "Данные профиля успешно обновлены!",
-      });
+      if ((dataUserEdit.name !== currentUser.name) || (dataUserEdit.email !== currentUser.email)) {
+        const dataUserEdited = await mainApi.editUser(dataUserEdit, token);
+        setCurrentUser(dataUserEdited.data);
+        setIsInfoToolTipOpen(true);
+        setInfoToolTipStatus({
+          status: true,
+          text: "Данные профиля успешно обновлены!",
+        });
+      } else {
+        setIsInfoToolTipOpen(true);
+        setInfoToolTipStatus({
+          status: false,
+          text: "Данные профиля совпадают с прежними!",
+        });
+      }
     } catch (error) {
       if (error.json()) {
         error.json().then((error) => {
