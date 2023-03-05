@@ -78,6 +78,7 @@ function App() {
       });
       setIsRegisteredUser(true);
       setLoggedIn(true);
+      getAllDataMovies();
       localStorage.setItem("token", tokenUser.token);
     } catch (err) {
         err.json().then((error) => {
