@@ -319,7 +319,7 @@ function App() {
     setVisibleMoviesListFunc();
   }
 
-  async function setVisibleMoviesListFunc() {
+  function setVisibleMoviesListFunc() {
     isFilterMovie
       ? setVisibleMovieList(filterShortMovies(filteredMovies))
       : isSavedFilms
