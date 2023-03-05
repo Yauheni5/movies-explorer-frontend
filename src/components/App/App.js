@@ -344,7 +344,7 @@ function App() {
     isSavedFilms ?
     setInputFilterSavedMovies(inputFilterSavedMovies) :
     setInputFilterMovies((JSON.parse(localStorage?.getItem('dataSearcher'))?.inputFilter) || "");
-  }, [location, isSavedFilms, savedMovies, filteredMovies]);
+  }, [location, isSavedFilms, savedMovies, filteredMovies, visibleMovieList]);
 
   useEffect(() => {
     function closeByEscape(evt) {
@@ -391,6 +391,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
+      setIsLoading(true);
       mainApi
         .getAllPromise(token)
         .then(([dataUser, dataSavedMovies]) => {
@@ -408,9 +409,10 @@ function App() {
             setTooltipErrorInfo(error);
             console.log(error.message || error.error || err.status); // выведем ошибку в консоль
           });
-      });
+        })
+        .finally(setIsLoading(false))
     }
-  }, [loggedIn, token]);
+  }, [token]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
