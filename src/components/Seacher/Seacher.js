@@ -1,36 +1,44 @@
-import { useEffect, useState } from "react"
+export default function Seacher({
+  isSavedFilms,
+  inputFilter,
+  isInputFilterValid,
+  handleTogleShortMovies,
+  handleChangeFilterInput,
+  isShortMovie,
+  filterMovies
+}) {
 
-export default function Seacher() {
-  const [shortFilm, setShortFilm] = useState(false);
-  const [inputFilter, setInputFilter] = useState("");
-
-  function handleSubmit(e) {
+  function handleSubmitFilter(e) {
     e.preventDefault();
-    console.log(inputFilter);
-    setInputFilter("");
+    filterMovies(inputFilter);
+    !isSavedFilms && localStorage.setItem('dataSearcher',
+      JSON.stringify({inputFilter: inputFilter, isShortMovie:isShortMovie
+    }));
   }
-
-  function handleChangeFilterInput (e){
-    setInputFilter(e.target.value)
-  }
-
-  useEffect (()=>{
-    if(shortFilm) {
-      console.log("включать короткометражки");
-    } else if (!shortFilm) {
-      console.log("не включать в поиск короткометражки");
-    }
-  },[shortFilm]);
 
   return (
     <section className="seacher section">
-      <form className="seacher__form" onSubmit={handleSubmit}>
-        <input className="seacher__input" onChange={handleChangeFilterInput} type="text" placeholder="Фильм" value={inputFilter} minLength={2} maxLength={30} required/>
-        <button className="seacher__button" type="submit" />
-          <div className="seacher__track" onClick={()=> setShortFilm(!shortFilm)}>
-            <div className={shortFilm ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
-            <p className="seacher__label">Короткометражки</p>
-          </div>
+      <form className="seacher__form" onSubmit={handleSubmitFilter}>
+        <input
+          className="seacher__input"
+          type="text"
+          onChange={handleChangeFilterInput}
+          placeholder="Поиск по строке из названия"
+          value={inputFilter || ""}
+          />
+        <button
+          className=
+            {
+              isInputFilterValid ?
+                "seacher__button" :
+                "seacher__button seacher__button_inactive"
+            }
+            type="submit"
+          />
+          <button type="button" onClick={handleTogleShortMovies} className="seacher__track">
+            <div className={isShortMovie ? "seacher__thumb seacher__thumb_active" : "seacher__thumb"}></div>
+            <p className={isShortMovie ? "seacher__label" : "seacher__label seacher__label_inactive"}>Короткометражки</p>
+          </button>
       </form>
       <hr className="seacher__line" />
     </section>

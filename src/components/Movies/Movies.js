@@ -1,30 +1,49 @@
 import { useState } from "react";
-import { moviesData } from "../../utils/constants/constants";
+import { INIT_NUMBER_VIEW_MOVIES } from "../../utils/constants/constants";
 import Card from "../Card/Card";
 
-export default function Movies({isSavedFilms}) {
-  const initNubmerViewFilms = 7;
-  const [viewNumberFilm, setViewNumberFilm] = useState(initNubmerViewFilms);
-  const [savedMovies, setSavedMovies] = useState([]);
+export default function Movies({
+  currentUser,
+  isSavedFilms,
+  savedMovies,
+  visibleMovieList,
+  handleSaveMovie,
+  handleDeleteSavedMovie,
+  isLoading
+}) {
+
+  const [viewNumberFilm, setViewNumberFilm] = useState(INIT_NUMBER_VIEW_MOVIES);
 
   function handleClickMoreFilms() {
-    setViewNumberFilm(viewNumberFilm + initNubmerViewFilms)
+    setViewNumberFilm(viewNumberFilm + INIT_NUMBER_VIEW_MOVIES);
   }
 
-  function handleToogleSavedMovies (movie) {
-    return setSavedMovies([...savedMovies, movie]);
+  function handleTogleSavedMovies(movie) {
+    return handleSaveMovie(movie);
   }
 
   return (
     <section className="movies">
       <ul className="movies__list">
         <Card
-            viewNumberFilm={viewNumberFilm}
-            handleToogleSavedMovies={handleToogleSavedMovies}
-            savedMovies={isSavedFilms ? savedMovies : ""}
-            isSavedFilms={isSavedFilms}
-            />
-          {viewNumberFilm < moviesData.length ? <button onClick={handleClickMoreFilms} className="movies__button-more">Ещё</button> : ""}
+          currentUser={currentUser}
+          viewNumberFilm={viewNumberFilm}
+          handleTogleSavedMovies={handleTogleSavedMovies}
+          isSavedFilms={isSavedFilms}
+          savedMovies={savedMovies}
+          visibleMovieList={visibleMovieList}
+          deleteSavedMovie={handleDeleteSavedMovie}
+          isLoading={isLoading}
+        />
+        {viewNumberFilm < visibleMovieList?.length ? (
+          <button
+            onClick={handleClickMoreFilms}
+            className="movies__button-more">
+            Ещё
+          </button>
+        ) : (
+          ""
+        )}
       </ul>
     </section>
   );

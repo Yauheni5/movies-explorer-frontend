@@ -27,6 +27,9 @@
 
 .card__button-like {
   grid-area: button;
+  background-color: inherit;
+  border: none;
+  background-position: 50%;
   width: 14px;
   height: 12px;
   background-image: url('../../images/like.svg');
@@ -41,14 +44,16 @@
 }
 
 .card__button-like_active {
-
   background-image: url('../../images/like-active.svg');
 }
 
 .card__button-delete {
   grid-area: button;
+  background-color: inherit;
+  border: none;
   background-image: url('../../images/delete-movie-icon.svg');
   background-repeat: no-repeat;
+  background-position: 50%;
   margin: 30px 0 22px 22px;
   width: 14px;
   height: 12px;
@@ -63,6 +68,8 @@
 
 .card__image {
   grid-area: img;
+  text-decoration: none;
+  color: #8B8B8B;
   width: 220px;
   height: 122px;
   object-fit: cover;

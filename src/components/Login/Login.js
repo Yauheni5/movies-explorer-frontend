@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
+import Preloader from "../Preloader/Preloader";
+import validator from "validator";
 
-export default function Login() {
+export default function Login({
+  isLoading,
+  authorizationUser,
+  togleRegisteredUser,
+}) {
   const [emailUser, setEmailUser] = useState("");
-  const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(false);
+  const [isValidEmailUserInput, setIsValidEmailUserInput] = useState(true);
   const [emailUserErrorText, setEmailUserErrorText] = useState("");
 
   const [password, setPassword] = useState("");
-  const [isValidPasswordInput, setIsValidPasswordInput] = useState(false);
+  const [isValidPasswordInput, setIsValidPasswordInput] = useState(true);
   const [passwordErrorText, setPasswordErrorText] = useState("");
 
   const [isValid, setIsValid] = useState(false);
@@ -23,68 +29,84 @@ export default function Login() {
     }
   };
 
-    function handleChangeEmail(e) {
-    handleChangeInputError(
-      e,
-      setEmailUserErrorText,
-      setIsValidEmailUserInput
-    );
-    setEmailUser(e.target.value);
+  function handleChangeEmail(e) {
+    if (e.target.validity.valid && validator.isEmail(e.target.value)) {
+      setEmailUserErrorText("");
+      setIsValidEmailUserInput(true);
+      setEmailUser(e.target.value);
+    } else {
+      setEmailUserErrorText(e.target.validationMessage || "Неверная почта");
+      setIsValidEmailUserInput(false);
+    }
   }
 
   function handleChangePassword(e) {
-    handleChangeInputError(
-      e,
-      setPasswordErrorText,
-      setIsValidPasswordInput
-    );
+    handleChangeInputError(e, setPasswordErrorText, setIsValidPasswordInput);
     setPassword(e.target.value);
   }
 
-    function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    isValid && console.log({ email: emailUser, password: password });
+    isValid && authorizationUser({ email: emailUser, password: password });
+    setEmailUser(emailUser);
+    setPassword(password)
+    setIsValidEmailUserInput(true);
+    setIsValidPasswordInput(true);
   }
 
   useEffect(() => {
-    setIsValid(isValidEmailUserInput && isValidPasswordInput);
-  }, [isValidEmailUserInput, isValidPasswordInput]);
+    setIsValid(isValidEmailUserInput && isValidPasswordInput && emailUser && password);
+  }, [isValidEmailUserInput, isValidPasswordInput, emailUser, password]);
 
-
-
-  return (
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <section className="register">
       <Link to="/" className="register__logo">
         <img className="logo" src={logo} alt="логотип приложения" />
       </Link>
       <h2 className="register__title">Рады видеть!</h2>
-      <form className="register__form" onSubmit={handleSubmit} noValidate>
+      <form className="register__form" onSubmit={(e)=>handleSubmit(e)} noValidate>
         <p className="register__label">E-mail</p>
         <input
-          className={isValidEmailUserInput ? "register__input" : "register__input register__input_error"}
+          className={
+            isValidEmailUserInput
+              ? "register__input"
+              : "register__input register__input_error"
+          }
           placeholder="Введите E-mail"
           onChange={handleChangeEmail}
           type="email"
+          defaultValue={"" || emailUser}
           required
+          disabled={isLoading ? "disabled" : ""}
         />
-        <p className="register__eror">{emailUserErrorText || ""}</p>
+        <p className="register__error">{emailUserErrorText || ""}</p>
         <p className="register__label">Пароль</p>
         <input
           className="register__input"
           placeholder="Введите пароль"
           onChange={handleChangePassword}
           type="password"
+          defaultValue={"" || password}
           required
+          disabled={isLoading ? "disabled" : ""}
         />
-        <p className="register__eror">{passwordErrorText || ""}</p>
+        <p className="register__error">{passwordErrorText || ""}</p>
         <button
           type="submit"
-          className={isValid ? "register__button" : "register__button register__button_disabled"}
-          disabled={isValid ? "" : "disabled"}
-        >
+          className={
+            isValid
+              ? "register__button"
+              : "register__button register__button_disabled"
+          }
+          disabled={(isValid && !isLoading) ? "" : "disabled"}>
           Войти
         </button>
-        <Link to="/movies" className="register__link">
+        <Link
+          to="/signup"
+          className="register__link"
+          onClick={()=>togleRegisteredUser(false)}>
           Ещё не зарегистрированы?
           <span className="register__text">Регистрация</span>
         </Link>
